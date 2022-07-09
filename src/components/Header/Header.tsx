@@ -1,8 +1,11 @@
 import React, { FC, FormEvent, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './Header.css';
 
 export const Header: FC = () => {
   const [searchValue, setSearchValue] = useState('');
+
+  const location = useLocation();
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -17,7 +20,11 @@ export const Header: FC = () => {
         <nav className="header__navigation">
           <ul className="header__navigation-list">
             <li className="header__navigation-list-item">
-              <a href="/" className="header__navigation-link">
+              <a
+                href="/"
+                onClick={(event) => location.pathname === '/' && event.preventDefault()}
+                className="header__navigation-link"
+              >
                 Пользователи гитхаба
               </a>
             </li>
