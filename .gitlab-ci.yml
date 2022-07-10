@@ -13,6 +13,7 @@ code_quality:
     - npm run stylelint
     - npm run prettier-check
   only:
+    - master
     - merge_requests
 
 build:
