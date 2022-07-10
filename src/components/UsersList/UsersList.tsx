@@ -105,7 +105,7 @@ export const UsersList: FC = () => {
               <Link className="link" to={`/users/${item.login}`}>
                 {item.login}
               </Link>
-              , {pluralization(item.public_repos, 'репозиториев', 'репозиторий', 'репозитория')}
+              , {item.public_repos} {pluralization(item.public_repos, 'репозиториев', 'репозиторий', 'репозитория')}
             </h2>
             <p className="users-list__text">{item.company}</p>
           </div>

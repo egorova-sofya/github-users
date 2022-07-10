@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GitHubDetailedUser, GitHubUsersRepo } from '../../types';
+import { pluralization } from '../../utils';
 import CustomError from '../CustomError/CustomError';
 import Loading from '../Loading/Loading';
 import './UserProfilePage.css';
@@ -47,8 +48,8 @@ export const UserProfilePage: FC = () => {
                 {gitHubUser.name}, <span className="user-profile__accent">{gitHubUser.login}</span>
               </h1>
               <p className="user-profile__text">
-                <span className="user-profile__accent">{gitHubUser.followers}k</span> followers ·{' '}
-                <span className="user-profile__accent">{gitHubUser.following}</span> following ·{' '}
+                <span className="user-profile__accent">{gitHubUser.followers}k</span>{' '}
+                {pluralization(gitHubUser.followers, 'подписок', 'подписка', 'подписки')} ·{' '}
                 <a href={gitHubUser.blog} target="_blank" rel="noreferrer" className="link">
                   {gitHubUser.blog}
                 </a>
@@ -59,7 +60,7 @@ export const UserProfilePage: FC = () => {
           <section className="repository-list">
             <div className="repository-list__header">
               <h2 className="repository-list__title">Репозитории</h2>
-              <a href={gitHubUser.html_url} className="link" target="_blank" rel="noreferrer">
+              <a href={`${gitHubUser.html_url}?tab=repositories`} className="link" target="_blank" rel="noreferrer">
                 Все репозитории
               </a>
             </div>
