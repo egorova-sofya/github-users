@@ -4,7 +4,6 @@ import './Header.css';
 
 export const Header: FC = () => {
   const [searchValue, setSearchValue] = useState('');
-
   const location = useLocation();
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -13,6 +12,8 @@ export const Header: FC = () => {
       return;
     }
   };
+
+  const userName = location.pathname.slice(location.pathname.lastIndexOf('/'));
 
   return (
     <header className="header">
@@ -29,7 +30,7 @@ export const Header: FC = () => {
               </a>
             </li>
             <li className="header__navigation-list-item">
-              <a className="header__navigation-link header__navigation-link--user">defunct</a>
+              <a className="header__navigation-link header__navigation-link--user">{userName}</a>
             </li>
           </ul>
         </nav>
