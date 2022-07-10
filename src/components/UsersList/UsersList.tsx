@@ -1,6 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { GitHubUser, GitHubDetailedUser } from '../../types';
 import { pluralization } from '../../utils';
+import CustomError from '../CustomError/CustomError';
+import Loading from '../Loading/Loading';
 import './UsersList.css';
 
 export const UsersList: FC = () => {
@@ -67,20 +70,28 @@ export const UsersList: FC = () => {
       site_admin: false,
     },
   ]);
+  const [fetchError, setFetchError] = useState(false);
 
   // useEffect(() => {
   //   fetch('https://api.github.com/users')
   //     .then((res) => res.json())
-  //     .then((res) => setUsersList(res));
+  //     .then((res) => setUsersList(res))
+  // .catch(() => setFetchError(true));
   // }, []);
 
   useEffect(() => {
     for (let i = 0; i <= usersList.length - 1; i++) {
       fetch(`https://api.github.com/users/${usersList[i]?.login}`)
         .then((res) => res.json())
-        .then((res) => setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]));
+        .then((res) => {
+          setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]);
+        })
+        .catch(() => setFetchError(true));
     }
   }, [usersList]);
+
+  if (usersDetailedList.length == 0 || usersList.length == 0) return <Loading />;
+  if (fetchError) return <CustomError />;
 
   return (
     <div className="users-list">
@@ -91,9 +102,9 @@ export const UsersList: FC = () => {
           </div>
           <div className="users-list__content">
             <h2 className="users-list__title">
-              <a href="/" className="link">
+              <Link className="link" to={`/users/${item.login}`}>
                 {item.login}
-              </a>
+              </Link>
               , {pluralization(item.public_repos, 'репозиториев', 'репозиторий', 'репозитория')}
             </h2>
             <p className="users-list__text">{item.company}</p>
