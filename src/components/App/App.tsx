@@ -13,7 +13,7 @@ export const App: FC = () => {
         <Route index element={<UsersPage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/users/:id" element={<UserProfilePage />} />
-        <Route path="/search?query=:id" element={<UsersSearchPage />} />
+        <Route path="/search" element={<UsersSearchPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

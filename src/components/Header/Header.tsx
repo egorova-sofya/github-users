@@ -1,19 +1,25 @@
 import React, { FC, FormEvent, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 
 export const Header: FC = () => {
   const [searchValue, setSearchValue] = useState('');
-  const location = useLocation();
+  const location = useLocation() as unknown as LocationProps;
+  const navigate = useNavigate();
+
+  type LocationProps = {
+    pathname: string;
+    state: string;
+  };
+
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!searchValue.trim().length) {
       return;
     }
+    navigate(`../search?query=${searchValue}`, { state: searchValue });
   };
-
-  const userName = location.pathname.slice(location.pathname.lastIndexOf('/'));
 
   return (
     <header className="header">
@@ -29,9 +35,11 @@ export const Header: FC = () => {
                 Пользователи гитхаба
               </a>
             </li>
-            <li className="header__navigation-list-item">
-              <a className="header__navigation-link header__navigation-link--user">{userName}</a>
-            </li>
+            {location.state && (
+              <li className="header__navigation-list-item">
+                <a className="header__navigation-link header__navigation-link--user">{location.state}</a>
+              </li>
+            )}
           </ul>
         </nav>
 
