@@ -13,7 +13,7 @@ code_quality:
     - npm run stylelint
     - npm run prettier-check
   only:
-    - master
+    - main
     - merge_requests
 
 build:
@@ -28,7 +28,7 @@ build:
       - dist
   only:
     - merge_requests
-    - master
+    - main
 
 deploy:
   image: alpine:latest
@@ -47,4 +47,4 @@ deploy:
   script:
     - rsync -a --delete dist/ $VPS_PATH
   only:
-    - master
+    - main
