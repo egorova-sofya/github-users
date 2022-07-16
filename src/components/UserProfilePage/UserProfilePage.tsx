@@ -49,7 +49,7 @@ export const UserProfilePage: FC = () => {
               </h1>
               <p className="user-profile__text">
                 <span className="user-profile__accent">{gitHubUser.followers}k</span>{' '}
-                {pluralization(gitHubUser.followers, 'подписок', 'подписка', 'подписки')} ·{' '}
+                {pluralization(gitHubUser.following, 'подписок', 'подписка', 'подписки')} ·{' '}
                 <a href={gitHubUser.blog} target="_blank" rel="noreferrer" className="link">
                   {gitHubUser.blog}
                 </a>
