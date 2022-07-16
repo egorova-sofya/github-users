@@ -8,8 +8,10 @@ export const UsersPage: FC = () => {
   const [usersDetailedList, setUsersDetailedList] = useState<GitHubDetailedUser[]>([]);
   const [usersList, setUsersList] = useState<GitHubUser[]>([]);
   const [fetchError, setFetchError] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
+    setLoader(true);
     fetch('https://api.github.com/users', {
       headers: {
         authorization: `Bearer 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`,
@@ -20,11 +22,13 @@ export const UsersPage: FC = () => {
         if (res.message) setFetchError(true);
         setUsersList(res);
       })
-      .catch(() => setFetchError(true));
+      .catch(() => setFetchError(true))
+      .finally(() => setLoader(false));
   }, []);
 
   useEffect(() => {
     for (let i = 0; i <= usersList.length - 1; i++) {
+      setLoader(true);
       fetch(`https://api.github.com/users/${usersList[i]?.login}`, {
         headers: {
           authorization: `Bearer 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`,
@@ -35,12 +39,16 @@ export const UsersPage: FC = () => {
           if (res.message) setFetchError(true);
           setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]);
         })
-        .catch(() => setFetchError(true));
+        .catch(() => setFetchError(true))
+        .finally(() => setLoader(false));
     }
   }, [usersList]);
 
-  if (fetchError) return <CustomError />;
-  if (usersDetailedList.length == 0 || usersList.length == 0) return <Loading />;
+  if (loader) {
+    <Loading />;
+  } else if (fetchError) {
+    <CustomError />;
+  }
 
   return (
     <>

@@ -11,8 +11,10 @@ export const UserProfilePage: FC = () => {
   const [gitHubUser, setGitHubUser] = useState<GitHubDetailedUser | null>(null);
   const [gitHubUsersRepos, setGitHubUsersRepos] = useState<GitHubUsersRepo[] | null>(null);
   const [fetchError, setFetchError] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
+    setLoader(true);
     fetch(`https://api.github.com/users/${id}`, {
       headers: {
         authorization: `Bearer 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`,
@@ -23,10 +25,13 @@ export const UserProfilePage: FC = () => {
         if (res.message) setFetchError(true);
         setGitHubUser(res);
       })
-      .catch(() => setFetchError(true));
+      .catch(() => setFetchError(true))
+      .finally(() => setLoader(false));
   }, [id]);
 
   useEffect(() => {
+    setLoader(true);
+
     if (gitHubUser) {
       fetch(`https://api.github.com/users/${gitHubUser.login}/repos`, {
         headers: {
@@ -38,12 +43,16 @@ export const UserProfilePage: FC = () => {
           if (res.message) setFetchError(true);
           setGitHubUsersRepos(res);
         })
-        .catch(() => setFetchError(true));
+        .catch(() => setFetchError(true))
+        .finally(() => setLoader(false));
     }
   }, [gitHubUser]);
 
-  if (!gitHubUser) return <Loading />;
-  if (fetchError) return <CustomError />;
+  if (loader) {
+    return <Loading />;
+  } else if (fetchError || !gitHubUser) {
+    return <CustomError />;
+  }
 
   const convertBigNumber = (number: number) => {
     if (number >= 1000) {

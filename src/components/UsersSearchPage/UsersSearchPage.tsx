@@ -15,8 +15,12 @@ export const UsersSearchPage: FC = () => {
   const [usersDetailedList, setUsersDetailedList] = useState<GitHubDetailedUser[]>([]);
   const [usersList, setUsersList] = useState<GitHubUser[]>([]);
   const [fetchError, setFetchError] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
+    setLoader(true);
+    setUsersDetailedList([]);
+    setUsersList([]);
     fetch(`https://api.github.com/search/users?q=${location.state}`, {
       headers: {
         authorization: `Bearer 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`,
@@ -27,12 +31,14 @@ export const UsersSearchPage: FC = () => {
         if (res.message) setFetchError(true);
         setUsersList(res.items);
       })
-      .catch(() => setFetchError(true));
+      .catch(() => setFetchError(true))
+      .finally(() => setLoader(false));
   }, [location]);
 
   useEffect(() => {
     for (let i = 0; i <= usersList.length - 1; i++) {
       if (usersList[i]) {
+        setLoader(true);
         fetch(`https://api.github.com/users/${usersList[i]?.login}`, {
           headers: {
             authorization: `Bearer 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`,
@@ -44,24 +50,29 @@ export const UsersSearchPage: FC = () => {
             setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]);
           })
 
-          .catch(() => setFetchError(true));
+          .catch(() => setFetchError(true))
+          .finally(() => {
+            setLoader(false);
+          });
       }
     }
   }, [usersList]);
 
-  if (fetchError) return <CustomError />;
-  if (usersDetailedList.length == 0 || usersList.length == 0) return <Loading />;
+  if (loader) {
+    <Loading />;
+  } else if (fetchError) {
+    <CustomError />;
+  }
 
   return (
     <>
       <main>
         <div className="container">
-          {usersList.length == 0 ? (
+          {usersList.length == 0 && !loader ? (
             <h1 className="title">Ничего не найдено по запросу {location.state}</h1>
           ) : (
             <h1 className="title">Пользователи по запросу {location.state}</h1>
           )}
-
           <UsersList usersList={usersDetailedList} />
         </div>
       </main>

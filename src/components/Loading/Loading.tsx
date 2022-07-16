@@ -1,13 +1,7 @@
-import React, { useState } from 'react';
-import CustomError from '../CustomError/CustomError';
+import React from 'react';
 
 const Loading = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 10000);
-  return isLoading ? <p style={{ margin: '20px' }}>Loading...</p> : <CustomError />;
+  return <p style={{ margin: '20px' }}>Loading...</p>;
 };
 
 export default Loading;
