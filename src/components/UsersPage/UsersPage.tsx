@@ -10,25 +10,37 @@ export const UsersPage: FC = () => {
   const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
-    fetch('https://api.github.com/users')
+    fetch('https://api.github.com/users', {
+      headers: {
+        authorization: `Bearer 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`,
+      },
+    })
       .then((res) => res.json())
-      .then((res) => setUsersList(res))
+      .then((res) => {
+        if (res.message) setFetchError(true);
+        setUsersList(res);
+      })
       .catch(() => setFetchError(true));
   }, []);
 
   useEffect(() => {
     for (let i = 0; i <= usersList.length - 1; i++) {
-      fetch(`https://api.github.com/users/${usersList[i]?.login}`)
+      fetch(`https://api.github.com/users/${usersList[i]?.login}`, {
+        headers: {
+          authorization: `Bearer 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`,
+        },
+      })
         .then((res) => res.json())
         .then((res) => {
+          if (res.message) setFetchError(true);
           setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]);
         })
         .catch(() => setFetchError(true));
     }
   }, [usersList]);
 
-  if (usersDetailedList.length == 0 || usersList.length == 0) return <Loading />;
   if (fetchError) return <CustomError />;
+  if (usersDetailedList.length == 0 || usersList.length == 0) return <Loading />;
 
   return (
     <>

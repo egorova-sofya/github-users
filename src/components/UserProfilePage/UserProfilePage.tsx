@@ -13,23 +13,44 @@ export const UserProfilePage: FC = () => {
   const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
-    fetch(`https://api.github.com/users/${id}`)
+    fetch(`https://api.github.com/users/${id}`, {
+      headers: {
+        authorization: `Bearer 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`,
+      },
+    })
       .then((res) => res.json())
-      .then((res) => setGitHubUser(res))
+      .then((res) => {
+        if (res.message) setFetchError(true);
+        setGitHubUser(res);
+      })
       .catch(() => setFetchError(true));
   }, [id]);
 
   useEffect(() => {
     if (gitHubUser) {
-      fetch(`https://api.github.com/users/${gitHubUser.id}/repos`)
+      fetch(`https://api.github.com/users/${gitHubUser.login}/repos`, {
+        headers: {
+          authorization: `Bearer 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`,
+        },
+      })
         .then((res) => res.json())
-        .then((res) => setGitHubUsersRepos(res))
+        .then((res) => {
+          if (res.message) setFetchError(true);
+          setGitHubUsersRepos(res);
+        })
         .catch(() => setFetchError(true));
     }
   }, [gitHubUser]);
 
   if (!gitHubUser) return <Loading />;
   if (fetchError) return <CustomError />;
+
+  const convertBigNumber = (number: number) => {
+    if (number >= 1000) {
+      return `${Number((number / 1000).toFixed(1))}k`;
+    }
+    return number;
+  };
 
   return (
     <>
@@ -45,14 +66,26 @@ export const UserProfilePage: FC = () => {
             </div>
             <div className="user-profile__content">
               <h1 className="user-profile__title">
-                {gitHubUser.name}, <span className="user-profile__accent">{gitHubUser.login}</span>
+                {gitHubUser.name ? `${gitHubUser.name},` : ''}{' '}
+                <span className="user-profile__accent">{gitHubUser.login}</span>
               </h1>
+
               <p className="user-profile__text">
-                <span className="user-profile__accent">{gitHubUser.followers}k</span>{' '}
-                {pluralization(gitHubUser.following, 'подписок', 'подписка', 'подписки')} ·{' '}
-                <a href={gitHubUser.blog} target="_blank" rel="noreferrer" className="link">
-                  {gitHubUser.blog}
-                </a>
+                <span className="user-profile__accent">{convertBigNumber(gitHubUser.followers)}</span>{' '}
+                {pluralization(gitHubUser.followers, 'подписчиков', 'подписчик', 'подписчика')} ·{' '}
+                <span className="user-profile__accent">{convertBigNumber(gitHubUser.following)}</span>{' '}
+                {pluralization(gitHubUser.following, 'подписок', 'подписка', 'подписки')}
+                {gitHubUser.blog ? (
+                  <>
+                    {' '}
+                    ·{' '}
+                    <a href={gitHubUser.blog} target="_blank" rel="noreferrer" className="link">
+                      {gitHubUser.blog}
+                    </a>
+                  </>
+                ) : (
+                  ''
+                )}
               </p>
             </div>
           </section>

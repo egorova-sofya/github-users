@@ -12,32 +12,42 @@ type LocationProps = {
 
 export const UsersSearchPage: FC = () => {
   const location = useLocation() as unknown as LocationProps;
-
   const [usersDetailedList, setUsersDetailedList] = useState<GitHubDetailedUser[]>([]);
   const [usersList, setUsersList] = useState<GitHubUser[]>([]);
   const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
-    fetch(`https://api.github.com/search/users?q=${location.state}`)
+    fetch(`https://api.github.com/search/users?q=${location.state}`, {
+      headers: {
+        authorization: `Bearer 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`,
+      },
+    })
       .then((res) => res.json())
-      .then((res) => 'login' in res && setUsersList(res.items))
+      .then((res) => {
+        if (res.message) setFetchError(true);
+        setUsersList(res.items);
+      })
       .catch(() => setFetchError(true));
   }, [location]);
 
   useEffect(() => {
     for (let i = 0; i <= usersList.length - 1; i++) {
       if (usersList[i]) {
-        fetch(`https://api.github.com/users/${usersList[i]?.login}`)
+        fetch(`https://api.github.com/users/${usersList[i]?.login}`, {
+          headers: {
+            authorization: `Bearer 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`,
+          },
+        })
           .then((res) => res.json())
           .then((res) => {
+            if (res.message) setFetchError(true);
             setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]);
           })
+
           .catch(() => setFetchError(true));
       }
     }
   }, [usersList]);
-
-  console.log(usersDetailedList);
 
   if (fetchError) return <CustomError />;
   if (usersDetailedList.length == 0 || usersList.length == 0) return <Loading />;
