@@ -38,8 +38,8 @@ deploy:
     - mkdir ~/.ssh
     - chmod 600 ~/.ssh
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
-    - cat "$SSH_PRIVATE_KEY"
     - chmod 600 ~/.ssh/id_rsa
+    - cat ~/.ssh/id_rsa
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 600 ~/.ssh/known_hosts
   environment:
