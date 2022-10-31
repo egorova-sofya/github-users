@@ -15,36 +15,28 @@ export const UserProfilePage: FC = () => {
 
   useEffect(() => {
     setLoader(true);
-    fetch(`https://api.github.com/users/${id}`, {
-      headers: {
-        authorization: `Bearer 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`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.message) setFetchError(true);
-        setGitHubUser(res);
-      })
-      .catch(() => setFetchError(true))
-      .finally(() => setLoader(false));
+    fetch(`https://api.github.com/users/${id}`);
+    // .then((res) => res.json())
+    // .then((res) => {
+    //   if (res.message) setFetchError(true);
+    //   setGitHubUser(res);
+    // })
+    // .catch(() => setFetchError(true))
+    // .finally(() => setLoader(false));
   }, [id]);
 
   useEffect(() => {
     setLoader(true);
 
     if (gitHubUser) {
-      fetch(`https://api.github.com/users/${gitHubUser.login}/repos`, {
-        headers: {
-          authorization: `Bearer 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`,
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.message) setFetchError(true);
-          setGitHubUsersRepos(res);
-        })
-        .catch(() => setFetchError(true))
-        .finally(() => setLoader(false));
+      // fetch(`https://api.github.com/users/${gitHubUser.login}/repos`)
+      //   .then((res) => res.json())
+      //   .then((res) => {
+      //     if (res.message) setFetchError(true);
+      //     setGitHubUsersRepos(res);
+      //   })
+      //   .catch(() => setFetchError(true))
+      //   .finally(() => setLoader(false));
     }
   }, [gitHubUser]);
 

@@ -21,39 +21,31 @@ export const UsersSearchPage: FC = () => {
     setLoader(true);
     setUsersDetailedList([]);
     setUsersList([]);
-    fetch(`https://api.github.com/search/users?q=${location.state}`, {
-      headers: {
-        authorization: `Bearer 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`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.message) setFetchError(true);
-        setUsersList(res.items);
-      })
-      .catch(() => setFetchError(true))
-      .finally(() => setLoader(false));
+    fetch(`https://api.github.com/search/users?q=${location.state}`);
+    // .then((res) => res.json())
+    // .then((res) => {
+    //   if (res.message) setFetchError(true);
+    //   setUsersList(res.items);
+    // })
+    // .catch(() => setFetchError(true))
+    // .finally(() => setLoader(false));
   }, [location]);
 
   useEffect(() => {
     for (let i = 0; i <= usersList.length - 1; i++) {
       if (usersList[i]) {
         setLoader(true);
-        fetch(`https://api.github.com/users/${usersList[i]?.login}`, {
-          headers: {
-            authorization: `Bearer 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`,
-          },
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            if (res.message) setFetchError(true);
-            setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]);
-          })
+        fetch(`https://api.github.com/users/${usersList[i]?.login}`);
+        // .then((res) => res.json())
+        // .then((res) => {
+        //   if (res.message) setFetchError(true);
+        //   setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]);
+        // })
 
-          .catch(() => setFetchError(true))
-          .finally(() => {
-            setLoader(false);
-          });
+        // .catch(() => setFetchError(true))
+        // .finally(() => {
+        //   setLoader(false);
+        // });
       }
     }
   }, [usersList]);

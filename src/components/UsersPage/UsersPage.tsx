@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { GitHubUser, GitHubDetailedUser } from '../../types';
 import CustomError from '../CustomError/CustomError';
 import Loading from '../Loading/Loading';
@@ -12,35 +13,27 @@ export const UsersPage: FC = () => {
 
   useEffect(() => {
     setLoader(true);
-    fetch('https://api.github.com/users', {
-      headers: {
-        authorization: `Bearer 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`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.message) setFetchError(true);
-        setUsersList(res);
-      })
-      .catch(() => setFetchError(true))
-      .finally(() => setLoader(false));
+    fetch('https://api.github.com/users');
+    // .then((res) => res.json())
+    // .then((res) => {
+    //   if (res.message) setFetchError(true);
+    //   setUsersList(res);
+    // })
+    // .catch(() => setFetchError(true))
+    // .finally(() => setLoader(false));
   }, []);
 
   useEffect(() => {
     for (let i = 0; i <= usersList.length - 1; i++) {
       setLoader(true);
-      fetch(`https://api.github.com/users/${usersList[i]?.login}`, {
-        headers: {
-          authorization: `Bearer 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`,
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.message) setFetchError(true);
-          setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]);
-        })
-        .catch(() => setFetchError(true))
-        .finally(() => setLoader(false));
+      // fetch(`https://api.github.com/users/${usersList[i]?.login}`)
+      //   .then((res) => res.json())
+      //   .then((res) => {
+      //     if (res.message) setFetchError(true);
+      //     setUsersDetailedList((usersDetailedList) => [...usersDetailedList, { ...res }]);
+      //   })
+      //   .catch(() => setFetchError(true))
+      //   .finally(() => setLoader(false));
     }
   }, [usersList]);
 
@@ -52,6 +45,8 @@ export const UsersPage: FC = () => {
 
   return (
     <>
+      {/* TODO delete me */}
+      <Link to="/test">TEST</Link>
       <main>
         <div className="container">
           <UsersList usersList={usersDetailedList} />

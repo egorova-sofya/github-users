@@ -4,7 +4,7 @@
     "stylelint": "stylelint \"src/{**/*,*}.css\"",
     "prettier": "prettier --write ./",
     "prettier-check": "prettier --check ./",
-    "start": "NODE_ENV=development webpack serve",
+    "start": "cross-env NODE_ENV=development webpack serve",
     "build": "webpack"
   },
   "dependencies": {
@@ -14,6 +14,7 @@
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
     "babel-loader": "^8.2.2",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.3.0",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
