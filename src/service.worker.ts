@@ -20,14 +20,7 @@ _self.addEventListener('install', (event) => {
     caches
       .open(cacheName)
       .then(async (cache) => {
-        // console.log('[Service Worker] Precaching App Shell');
-        //добавляем страницы, которые хотим закешировать
-        cache.addAll([
-          '/',
-          // 'https://frontend.karpovcourses.net/api/v2/ru/news',
-          // 'https://frontend.karpovcourses.net/api/v2/ru/trends',
-          // 'https://frontend.karpovcourses.net/api/v2/ru/news/6',
-        ]);
+        cache.addAll([`/`, `/test`, `/users`, `/search`]);
       })
       .catch((e) => console.error('sw install error', e))
   );
@@ -55,11 +48,6 @@ _self.addEventListener('activate', function (event) {
 });
 
 _self.addEventListener('fetch', (e) => {
-  console.log(
-    'Math.floor((date.getTime() - firstJan.getTime()) / (1000 * 60 * 60 * 24 * 7)),',
-    Math.floor((date.getTime() - firstJan.getTime()) / (1000 * 60 * 60 * 24 * 7))
-  );
-
   const url = e.request.url;
   const request = e.request;
   if (url.startsWith('http') && e.request.method === 'GET') {
