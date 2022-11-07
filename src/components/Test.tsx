@@ -21,6 +21,7 @@ const Test = () => {
     <>
       <h1>Test</h1>
       <h3>{data.title}</h3>
+      <button>click</button>
       <Link to="/">HOME</Link>
     </>
   );
