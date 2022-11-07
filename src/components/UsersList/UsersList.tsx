@@ -11,9 +11,9 @@ interface Props {
 
 export const UsersList: FC<Props> = ({ usersList }) => {
   return (
-    <div className="users-list">
+    <li className="users-list">
       {usersList.map((item) => (
-        <section className="users-list__item" key={item.id}>
+        <div className="users-list__item" key={item.id}>
           <div className="users-list__image-container">
             <img className="users-list__image" src={item.avatar_url} alt={`${item.login} profile photo`} />
           </div>
@@ -32,8 +32,8 @@ export const UsersList: FC<Props> = ({ usersList }) => {
             </h2>
             <p className="users-list__text">{item.company}</p>
           </div>
-        </section>
+        </div>
       ))}
-    </div>
+    </li>
   );
 };

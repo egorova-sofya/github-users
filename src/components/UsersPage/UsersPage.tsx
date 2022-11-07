@@ -48,9 +48,9 @@ export const UsersPage: FC = () => {
       {/* TODO delete me */}
       <Link to="/test">TEST</Link>
       <main>
-        <div className="container">
+        <ul className="container">
           <UsersList usersList={usersDetailedList} />
-        </div>
+        </ul>
       </main>
     </>
   );

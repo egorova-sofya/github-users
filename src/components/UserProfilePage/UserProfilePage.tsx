@@ -57,7 +57,7 @@ export const UserProfilePage: FC = () => {
     <>
       <main>
         <div className="container">
-          <section className="user-profile">
+          <div className="user-profile">
             <div className="user-profile__image-container">
               <img
                 className="user-profile__image"
@@ -89,9 +89,9 @@ export const UserProfilePage: FC = () => {
                 )}
               </p>
             </div>
-          </section>
+          </div>
 
-          <section className="repository-list">
+          <div className="repository-list">
             <div className="repository-list__header">
               <h2 className="repository-list__title">Репозитории</h2>
               <a href={`${gitHubUser.html_url}?tab=repositories`} className="link" target="_blank" rel="noreferrer">
@@ -99,21 +99,21 @@ export const UserProfilePage: FC = () => {
               </a>
             </div>
 
-            <div className="repository-list__container">
+            <ul className="repository-list__container">
               {gitHubUsersRepos?.length == 0 && <p>Нет репозиториев</p>}
               {gitHubUsersRepos &&
                 gitHubUsersRepos.map((item) => (
-                  <section className="repository-list__item" key={item.id}>
+                  <li className="repository-list__item" key={item.id}>
                     <h3 className="repository-list__item-title">
                       <a target="_blank" rel="noreferrer" href={item.html_url} className="link">
                         {item.name}
                       </a>
                     </h3>
                     <p className="repository-list__item-text">{item.description}</p>
-                  </section>
+                  </li>
                 ))}
-            </div>
-          </section>
+            </ul>
+          </div>
         </div>
       </main>
     </>

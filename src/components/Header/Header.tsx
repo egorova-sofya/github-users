@@ -1,6 +1,7 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
+import { useTranslation } from 'react-i18next';
 
 export const Header: FC = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -21,6 +22,8 @@ export const Header: FC = () => {
     navigate(`../search?query=${searchValue}`, { state: searchValue });
   };
 
+  const { t } = useTranslation();
+
   return (
     <header className="header">
       <div className="container header__container">
@@ -32,7 +35,8 @@ export const Header: FC = () => {
                 onClick={(event) => location.pathname === '/' && event.preventDefault()}
                 className="header__navigation-link"
               >
-                Пользователи гитхаба
+                {/* Пользователи гитхаба */}
+                {t('logo_main')}
               </a>
             </li>
             {location.state && (
