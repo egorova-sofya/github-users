@@ -2,6 +2,8 @@ import React, { FC, FormEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { useTranslation } from 'react-i18next';
+import { LocaleSwitcherButton } from '../../locale/components/LocaleSwitcherButton';
+import { Locale } from '../../locale/types';
 
 export const Header: FC = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -46,6 +48,7 @@ export const Header: FC = () => {
             )}
           </ul>
         </nav>
+        <LocaleSwitcherButton locale={Locale.en} onClick={() => {}} />
 
         <div className="header__search">
           <form className="header__search-form" onSubmit={onSubmit}>

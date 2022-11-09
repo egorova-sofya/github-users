@@ -32,6 +32,11 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
+        test: /\.(svg|jpg|png)$/,
+        type: 'asset/resource',
+      },
+
+      {
         test: /\.(ts|tsx)$/,
         use: 'ts-loader',
         exclude: [/node_modules/, /worker\.ts$/],
